@@ -35,6 +35,9 @@ fi
 composer require "drupal/core-dev:$DRUPAL_VERSION"
 DRUPAL_MAJOR=$(echo "$DRUPAL_VERSION" | cut -d. -f1)
 if [ $DRUPAL_MAJOR -ge 9 ]; then
+  # XXX: 9.4.x-dev installs phpunit 8... but then we expect to have to install 
+  # the phpspec/prophecy-phpunit:^2 thing, which only works with phpunit 9.
+  composer require -W phpunit/phpunit:^9
   composer require phpspec/prophecy-phpunit:^2 drush/drush
 elif [ $DRUPAL_MAJOR -eq 8 ]; then
   composer require drush/drush:^10
