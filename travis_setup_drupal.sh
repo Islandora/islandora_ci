@@ -49,9 +49,9 @@ drush --uri=127.0.0.1:8282 en -y simpletest
 # Install pdfjs
 cd /opt/drupal
 if [ -z "$COMPOSER_PATH" ]; then
-  composer require "zaporylie/composer-drupal-optimizations:^1.0" "drupal/pdf:1.x-dev"
+  composer require "drupal/pdf:1.x-dev"
 else
-  php -dmemory_limit=-1 $COMPOSER_PATH require "zaporylie/composer-drupal-optimizations:^1.0" "drupal/pdf:1.x-dev"
+  php -dmemory_limit=-1 $COMPOSER_PATH require "drupal/pdf:1.x-dev"
 fi
 
 cd web
