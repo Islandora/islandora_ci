@@ -16,7 +16,7 @@ checkReturn $?
 phpcs --standard=Drupal --ignore=*.md,*-min.css --extensions=php,module,inc,install,test,profile,theme,css,info $GITHUB_WORKSPACE/build_dir
 checkReturn $?
 
-phpcpd --suffix *.module,*.inc,*.test,*.php $GITHUB_WORKSPACE/build_dir
+phpcpd --suffix *.module --suffix *.inc --suffix *.install --suffix *.test --suffix *.php $GITHUB_WORKSPACE/build_dir
 checkReturn $?
 
 exit $OUTPUT
