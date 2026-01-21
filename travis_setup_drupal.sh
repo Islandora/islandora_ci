@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-bash -x
+set -x
 
 echo "Setup database for Drupal"
 mysql -h 127.0.0.1 -P 3306 -u root -e "CREATE USER 'drupal'@'%' IDENTIFIED BY 'drupal';"
