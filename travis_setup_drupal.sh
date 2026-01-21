@@ -47,7 +47,7 @@ else
   php -dmemory_limit=-1 $COMPOSER_PATH install
 fi
 
-composer require -W "drupal/core-dev:$DRUPAL_VERSION" drush/drush
+composer require -W "drupal/core-dev:$DRUPAL_VERSION" || true
 
 echo "Setup Drush"
 sudo ln -s /opt/drupal/vendor/bin/drush /usr/bin/drush
