@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/bash
+
+set -eou pipefail
+
 echo "Setup database for Drupal"
 mysql -h 127.0.0.1 -P 3306 -u root -e "CREATE USER 'drupal'@'%' IDENTIFIED BY 'drupal'; GRANT ALL PRIVILEGES ON drupal.* To 'drupal'@'%'; FLUSH ALL PRIVILEGES;"
 
@@ -32,7 +35,7 @@ else
   php -dmemory_limit=-1 $COMPOSER_PATH install
 fi
 
-composer require "drupal/core-dev:$DRUPAL_VERSION"
+composer require -W "drupal/core-dev:$DRUPAL_VERSION"
 DRUPAL_MAJOR=$(echo "$DRUPAL_VERSION" | cut -d. -f1)
 if [ $DRUPAL_MAJOR -ge 9 ]; then
   # XXX: 9.4.x-dev installs phpunit 8... but then we expect to have to install 
