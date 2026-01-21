@@ -47,21 +47,7 @@ else
   php -dmemory_limit=-1 $COMPOSER_PATH install
 fi
 
-composer require -W "drupal/core-dev:$DRUPAL_VERSION"
-DRUPAL_MAJOR=$(echo "$DRUPAL_VERSION" | cut -d. -f1)
-if [ $DRUPAL_MAJOR -ge 9 ]; then
-  # XXX: 9.4.x-dev installs phpunit 8... but then we expect to have to install 
-  # the phpspec/prophecy-phpunit:^2 thing, which only works with phpunit 9.
-  composer require -W phpunit/phpunit:^9
-  composer require phpspec/prophecy-phpunit:^2 drush/drush
-elif [ $DRUPAL_MAJOR -eq 8 ]; then
-  composer require drush/drush:^10
-elif [ $DRUPAL_MAJOR -eq 7 ]; then
-  composer require drush/drush:^8
-else
-  echo "Unmapped major version of Drupal: $DRUPAL_MAJOR"
-  exit 1
-fi
+composer require -W "drupal/core-dev:$DRUPAL_VERSION" drush/drush
 
 echo "Setup Drush"
 sudo ln -s /opt/drupal/vendor/bin/drush /usr/bin/drush
