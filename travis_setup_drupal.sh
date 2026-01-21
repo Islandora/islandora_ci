@@ -41,6 +41,7 @@ fi
 
 mkdir -p /opt/drupal
 pushd /opt/drupal
+composer --version
 composer create-project "drupal/recommended-project:$DRUPAL_VERSION" .
 composer require -W "drupal/core-dev:$DRUPAL_VERSION" drush/drush
 
