@@ -13,7 +13,7 @@ mysql -h 127.0.0.1 -P 3306 -u root -e "FLUSH PRIVILEGES;"
 echo "Install utilities needed for testing"
 mkdir /opt/utils
 cd /opt/utils
-if [ -z "$COMPOSER_PATH" ]; then
+if [ -z "${COMPOSER_PATH:-}" ]; then
   composer require drupal/coder 8.3.13 # 8.3.14 breaks, see https://www.drupal.org/project/coder/issues/3262291 
   composer require sebastian/phpcpd ^6
 else
@@ -26,7 +26,7 @@ phpenv rehash
 phpcs --config-set installed_paths /opt/utils/vendor/drupal/coder/coder_sniffer
 
 echo "Composer install drupal site"
-if [ -z "$DRUPAL_VERSION" ]; then
+if [ -z "${DRUPAL_VERSION:-}" ]; then
    # Just fail if we don't set a version
    echo "DRUPAL_VERSION is not set, exiting"
    exit 1
@@ -34,7 +34,7 @@ fi
 cd /opt
 composer create-project drupal/recommended-project:$DRUPAL_VERSION drupal
 cd drupal
-if [ -z "$COMPOSER_PATH" ]; then
+if [ -z "${COMPOSER_PATH:-}" ]; then
   composer install
 else
   php -dmemory_limit=-1 $COMPOSER_PATH install
