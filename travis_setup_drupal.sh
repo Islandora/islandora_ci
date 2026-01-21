@@ -4,6 +4,7 @@ set -eou pipefail
 set -x
 
 export COMPOSER_MEMORY_LIMIT=-1
+export COMPOSER_NO_INTERACTION=true
 
 echo "Setup database for Drupal"
 mysql -h 127.0.0.1 -P 3306 -u root -e "CREATE USER 'drupal'@'%' IDENTIFIED BY 'drupal';"
@@ -41,7 +42,7 @@ fi
 mkdir -p /opt/drupal
 pushd /opt/drupal
 composer create-project "drupal/recommended-project:$DRUPAL_VERSION" .
-composer require -W "drupal/core-dev:$DRUPAL_VERSION"
+composer require -W "drupal/core-dev:$DRUPAL_VERSION" drush/drush
 
 echo "Setup Drush"
 sudo ln -s /opt/drupal/vendor/bin/drush /usr/bin/drush
