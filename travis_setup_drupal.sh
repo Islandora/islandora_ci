@@ -22,7 +22,13 @@ else
 fi
 sudo ln -s /opt/utils/vendor/bin/phpcs /usr/bin/phpcs
 sudo ln -s /opt/utils/vendor/bin/phpcpd /usr/bin/phpcpd
-phpenv rehash
+
+if command -v phpenv &> /dev/null; then
+    phpenv rehash
+else
+    echo "phpenv not found, skipping rehash"
+fi
+
 phpcs --config-set installed_paths /opt/utils/vendor/drupal/coder/coder_sniffer
 
 echo "Composer install drupal site"
@@ -31,9 +37,10 @@ if [ -z "${DRUPAL_VERSION:-}" ]; then
    echo "DRUPAL_VERSION is not set, exiting"
    exit 1
 fi
-cd /opt
+
+pushd /opt
 composer create-project drupal/recommended-project:$DRUPAL_VERSION drupal
-cd drupal
+pushd drupal
 if [ -z "${COMPOSER_PATH:-}" ]; then
   composer install
 else
@@ -69,6 +76,7 @@ echo "Drush setup drupal site"
 pushd web
 drush si --db-url=mysql://drupal:drupal@127.0.0.1:3306/drupal --yes
 drush runserver 127.0.0.1:8282 &
-until curl -s 127.0.0.1:8282; do true; done > /dev/null
+until timeout 5 curl -s 127.0.0.1:8282 > /dev/null; do sleep 1; done
+
 echo "Enable simpletest module"
 drush --uri=127.0.0.1:8282 en -y simpletest
