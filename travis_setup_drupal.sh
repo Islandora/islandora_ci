@@ -43,7 +43,10 @@ mkdir -p /opt/drupal
 pushd /opt/drupal
 composer --version
 composer create-project "drupal/recommended-project:$DRUPAL_VERSION" .
-composer require -W "drupal/core-dev:$DRUPAL_VERSION" drush/drush
+composer require -W \
+  "drupal/core-dev:$DRUPAL_VERSION" \
+  drush/drush \
+  drupal/action
 
 echo "Setup Drush"
 sudo ln -s /opt/drupal/vendor/bin/drush /usr/bin/drush
