@@ -1,0 +1,56 @@
+name: build-push
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '15 12 * * *'
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+    - uses: 'actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8' # v6
+
+    - uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5 # v3.3.0
+      with:
+        dockerfile: Dockerfile
+        verbose: true
+
+    - name: check valid sh
+      run: shellcheck **/*.sh
+
+  # get the apk cache set before building the other images
+  cache-seed:
+    needs: [lint]
+    strategy:
+      matrix:
+        php-version: ["8.3", "8.4", "8.5"]
+      fail-fast: false
+    uses: ./.github/workflows/build-image.yml
+    with:
+      php-version: ${{ matrix.php-version }}
+      drupal-version: "11.3.x"
+    permissions:
+      contents: read
+      packages: write
+
+  # build the rest of the Drupal+php images
+  build-push:
+    needs: [cache-seed]
+    strategy:
+      matrix:
+        php-version: ["8.3", "8.4", "8.5"]
+        drupal-version: ["10.5.x", "10.6.x", "11.2.x"]
+      max-parallel: 3
+      fail-fast: false
+    uses: ./.github/workflows/build-image.yml
+    with:
+      php-version: ${{ matrix.php-version }}
+      drupal-version: ${{ matrix.drupal-version }}
+    permissions:
+      contents: read
+      packages: write
