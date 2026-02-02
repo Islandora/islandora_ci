@@ -63,7 +63,7 @@ ENV \
   LINT=1 \
   MINK_DRIVER_ARGS_WEBDRIVER='["chrome", {"browserName":"chrome","goog:chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox", "--disable-dev-shm-usage"]}}, "http://chromedriver:9515"]' \
   SIMPLETEST_BASE_URL=http://drupal:8282 \
-  SYMFONY_DEPRECATIONS_HELPER=disabled \
+  SYMFONY_DEPRECATIONS_HELPER=weak \
   TEST_SUITE=
 
 ENTRYPOINT ["/var/www/drupal/docker-entrypoint.sh"]
