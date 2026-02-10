@@ -19,10 +19,10 @@ jobs:
       shell: bash
       run: |-
         if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
-          TAG=$(echo "${GITHUB_REF#refs/tags/}" | sed 's/[^a-zA-Z0-9._-]//g' | awk '{print substr($0, length($0)-120)}')
+          TAG=-$(echo "${GITHUB_REF#refs/tags/}" | sed 's/[^a-zA-Z0-9._-]//g' | awk '{print substr($0, length($0)-120)}')
         else
-          TAG=$(echo "${GITHUB_REF#refs/heads/}" | sed 's/[^a-zA-Z0-9._-]//g' | awk '{print substr($0, length($0)-120)}')
-          if [ "$TAG" = "main" ]; then
+          TAG=-$(echo "${GITHUB_REF#refs/heads/}" | sed 's/[^a-zA-Z0-9._-]//g' | awk '{print substr($0, length($0)-120)}')
+          if [ "$TAG" = "-main" ]; then
             TAG=""
           fi
         fi
