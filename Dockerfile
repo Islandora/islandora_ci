@@ -23,7 +23,7 @@ ARG \
     # renovate: datasource=repology depName=alpine_3_23/jq
     JQ_VERSION=1.8.1-r0 \
     # renovate: datasource=repology depName=alpine_3_23/yq-go
-    YQ_VERSION=4.49.2-r2 \
+    YQ_VERSION=4.49.2-r3 \
     # renovate: datasource=repology depName=alpine_3_23/zip
     ZIP_VERSION=3.0-r13
 
