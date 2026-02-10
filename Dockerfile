@@ -40,6 +40,13 @@ RUN --mount=type=cache,id=apk-${PHP_VERSION}-${TARGETARCH},sharing=locked,target
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN install-php-extensions @composer \
       gd \
+      intl \
+      ldap \
+      mysqli \
+      pdo_mysql \
+      pdo_pgsql \
+      sockets \
+      xsl \
       zip
 
 RUN --mount=type=cache,id=composer-${DRUPAL_VERSION}-${TARGETARCH},sharing=locked,target=/root/.composer/cache \
