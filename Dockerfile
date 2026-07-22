@@ -53,6 +53,7 @@ RUN install-php-extensions @composer \
 RUN --mount=type=cache,id=composer-${DRUPAL_VERSION}-${TARGETARCH},sharing=locked,target=/root/.composer/cache \
     composer create-project \
       "drupal/recommended-project:$DRUPAL_VERSION" . && \
+    composer config --no-plugins allow-plugins.symfony/runtime true && \
     composer require -W \
       "drupal/core-dev:$DRUPAL_VERSION" \
       drush/drush && \
