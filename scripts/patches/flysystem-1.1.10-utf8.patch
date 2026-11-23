@@ -1,0 +1,11 @@
+--- a/src/Util.php
++++ b/src/Util.php
+@@ -142,7 +142,7 @@
+      */
+     protected static function removeFunkyWhiteSpace($path)
+     {
+-        if (preg_match('#\p{C}+#u', $path)) {
++        if (preg_match('#\p{C}+#u', $path) !== 0) {
+             throw CorruptedPathDetected::forPath($path);
+         }
+ 

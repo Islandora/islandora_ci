@@ -33,6 +33,10 @@ echo "Starting test server"
 drush rs --quiet "$SIMPLETEST_BASE_URL" &
 until curl -s "$SIMPLETEST_BASE_URL"; do sleep 1; done > /dev/null
 
+if [ "${LEGACY_FLYSYSTEM_PATCH:-1}" -eq 1 ]; then
+  bash "$DRUPAL_DIR/legacy-flysystem.sh"
+fi
+
 DIR=""
 composer config --no-interaction allow-plugins true
 for MODULE in $ENABLE_MODULES; do
